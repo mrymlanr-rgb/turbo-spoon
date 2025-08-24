@@ -1,207 +1,807 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[codz]
-*$py.class
+import streamlit as st
+import json
+import os
+from utils.progress_tracker import ProgressTracker
 
-# C extensions
-*.so
+# Configure page
+st.set_page_config(
+    page_title="منصة تعلم بايثون",
+    page_icon="🐍",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Initialize progress tracker
+if 'progress_tracker' not in st.session_state:
+    st.session_state.progress_tracker = ProgressTracker()
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# Main page content
+st.title("🐍 منصة تعلم بايثون للمبتدئين")
+st.markdown("### مرحباً بك في رحلة تعلم لغة البرمجة بايثون!")
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Welcome section
+col1, col2 = st.columns([2, 1])
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py.cover
-.hypothesis/
-.pytest_cache/
-cover/
+with col1:
+    st.markdown("""
+    ## ماذا ستتعلم؟
+    
+    📚 **الأساسيات**: المتغيرات، أنواع البيانات، والعمليات الأساسية
+    
+    🔄 **التكرار والشروط**: الحلقات والجمل الشرطية
+    
+    🔧 **الدوال**: كيفية كتابة وإستخدام الدوال
+    
+    📊 **هياكل البيانات**: القوائم، القواميس، والمجموعات
+    
+    🎯 **المشاريع العملية**: تطبيق ما تعلمته في مشاريع حقيقية
+    """)
 
-# Translations
-*.mo
-*.pot
+with col2:
+    st.markdown("### 📊 إحصائياتك")
+    progress = st.session_state.progress_tracker.get_overall_progress()
+    st.metric("نسبة الإنجاز", f"{progress:.1f}%")
+    
+    completed_lessons = st.session_state.progress_tracker.get_completed_lessons_count()
+    st.metric("الدروس المكتملة", completed_lessons)
+    
+    st.markdown("---")
+    st.markdown("### 🚀 ابدأ الآن")
+    if st.button("الذهاب إلى الدروس", type="primary"):
+        st.switch_page("pages/1_الدروس.py")
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+# Features section
+st.markdown("---")
+st.markdown("## ✨ مميزات المنصة")
 
-# Flask stuff:
-instance/
-.webassets-cache
+col1, col2, col3 = st.columns(3)
 
-# Scrapy stuff:
-.scrapy
+with col1:
+    st.markdown("""
+    ### 💻 محرر كود تفاعلي
+    اكتب وجرب الكود مباشرة في المتصفح مع تنفيذ فوري للنتائج
+    """)
 
-# Sphinx documentation
-docs/_build/
+with col2:
+    st.markdown("""
+    ### 📖 دروس تدريجية
+    تعلم خطوة بخطوة من البداية حتى الاحتراف
+    """)
 
-# PyBuilder
-.pybuilder/
-target/
+with col3:
+    st.markdown("""
+    ### 🎯 تمارين عملية
+    طبق ما تعلمته من خلال تمارين متنوعة ومفيدة
+    """)
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Quick start section
+st.markdown("---")
+st.markdown("## 🏃‍♂️ البدء السريع")
 
-# IPython
-profile_default/
-ipython_config.py
+quick_start_col1, quick_start_col2 = st.columns(2)
 
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
+with quick_start_col1:
+    st.markdown("""
+    ### للمبتدئين الجدد:
+    1. ابدأ بصفحة **الدروس** لتعلم الأساسيات
+    2. جرب **ملعب الكود** لتجربة ما تعلمته
+    3. حل **التمارين** لتطبيق المعرفة
+    4. تابع **التقدم** لمعرفة مستواك
+    """)
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+with quick_start_col2:
+    st.markdown("""
+    ### نصائح مهمة:
+    - خذ وقتك في فهم كل مفهوم
+    - جرب تعديل الأمثلة المعطاة
+    - لا تتردد في العودة للدروس السابقة
+    - تمرن كثيراً لترسيخ المعلومات
+    """)
 
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#uv.lock
+# Footer
+st.markdown("---")
+st.markdown("""
+<div style='text-align: center; color: #666;'>
+    <p>تم تطوير هذه المنصة لتعليم بايثون بطريقة تفاعلية وممتعة</p>
+    <p>🐍 Happy Coding! 🐍</p>
+</div>
+""", unsafe_allow_html=True)
+import streamlit as st
+import json
+from streamlit_ace import st_ace
+from utils.code_executor import CodeExecutor
+from utils.progress_tracker import ProgressTracker
 
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
-#poetry.toml
+# Page configuration
+st.set_page_config(page_title="الدروس", page_icon="📚", layout="wide")
 
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#   pdm recommends including project-wide configuration in pdm.toml, but excluding .pdm-python.
-#   https://pdm-project.org/en/latest/usage/project/#working-with-version-control
-#pdm.lock
-#pdm.toml
-.pdm-python
-.pdm-build/
+# Initialize utilities
+@st.cache_data
+def load_lessons():
+    with open('lessons/lessons_data.json', 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-# pixi
-#   Similar to Pipfile.lock, it is generally recommended to include pixi.lock in version control.
-#pixi.lock
-#   Pixi creates a virtual environment in the .pixi directory, just like venv module creates one
-#   in the .venv directory. It is recommended not to include this directory in version control.
-.pixi
+if 'code_executor' not in st.session_state:
+    st.session_state.code_executor = CodeExecutor()
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
+if 'progress_tracker' not in st.session_state:
+    st.session_state.progress_tracker = ProgressTracker()
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+# Load lessons data
+lessons_data = load_lessons()
+lessons = lessons_data['lessons']
 
-# SageMath parsed files
-*.sage.py
+st.title("📚 الدروس التعليمية")
 
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Sidebar for lesson navigation
+st.sidebar.title("قائمة الدروس")
+lesson_titles = [f"{lesson['id']}. {lesson['title']}" for lesson in lessons]
+selected_lesson_index = st.sidebar.selectbox(
+    "اختر درس:",
+    range(len(lesson_titles)),
+    format_func=lambda x: lesson_titles[x]
+)
 
-# Spyder project settings
-.spyderproject
-.spyproject
+# Get selected lesson
+selected_lesson = lessons[selected_lesson_index]
+lesson_id = selected_lesson['id']
 
-# Rope project settings
-.ropeproject
+# Progress indicator
+progress = st.session_state.progress_tracker.get_overall_progress()
+st.sidebar.metric("نسبة الإنجاز الإجمالي", f"{progress:.1f}%")
 
-# mkdocs documentation
-/site
+# Lesson completion status
+is_completed = st.session_state.progress_tracker.is_lesson_completed(lesson_id)
+if is_completed:
+    st.sidebar.success("✅ تم إكمال هذا الدرس")
+else:
+    st.sidebar.info("⏳ لم يكتمل بعد")
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Main content
+col1, col2 = st.columns([2, 1])
 
-# Pyre type checker
-.pyre/
+with col1:
+    # Lesson header
+    st.header(f"درس {selected_lesson['id']}: {selected_lesson['title']}")
+    st.badge(selected_lesson['level'], type="secondary")
+    st.write(selected_lesson['description'])
+    
+    # Theory section
+    st.subheader("📖 الشرح النظري")
+    st.write(selected_lesson['content']['theory'])
+    
+    # Code example section
+    st.subheader("💻 مثال عملي")
+    st.code(selected_lesson['content']['example'], language='python')
+    
+    # Explanation
+    st.subheader("📝 شرح الكود")
+    st.write(selected_lesson['content']['explanation'])
+    
+    # Interactive code editor
+    st.subheader("🧪 جرب الكود بنفسك")
+    st.write("يمكنك تعديل الكود أدناه وتجربته:")
+    
+    # Code editor
+    user_code = st_ace(
+        value=selected_lesson['content']['example'],
+        language='python',
+        theme='github',
+        font_size=14,
+        tab_size=4,
+        wrap=True,
+        height=200,
+        key=f"lesson_{lesson_id}_editor"
+    )
+    
+    # Execute button
+    col_exec, col_clear = st.columns([1, 1])
+    
+    with col_exec:
+        if st.button("▶️ تشغيل الكود", type="primary"):
+            if user_code.strip():
+                # Validate and execute code
+                is_valid, validation_msg = st.session_state.code_executor.validate_code(user_code)
+                
+                if is_valid:
+                    with st.spinner("جاري تشغيل الكود..."):
+                        result = st.session_state.code_executor.execute_code(user_code)
+                        st.session_state.progress_tracker.increment_code_runs()
+                    
+                    if result['success']:
+                        st.success("تم تشغيل الكود بنجاح!")
+                        if result['output']:
+                            st.subheader("📤 النتيجة:")
+                            st.code(result['output'], language='text')
+                        st.info(f"وقت التنفيذ: {result['execution_time']:.3f} ثانية")
+                    else:
+                        st.error("حدث خطأ أثناء تشغيل الكود:")
+                        st.code(result['error'], language='text')
+                else:
+                    st.error(validation_msg)
+            else:
+                st.warning("الرجاء كتابة بعض الكود أولاً")
+    
+    with col_clear:
+        if st.button("🗑️ مسح الكود"):
+            st.rerun()
 
-# pytype static type analyzer
-.pytype/
+with col2:
+    # Quiz section
+    st.subheader("🎯 اختبار سريع")
+    quiz = selected_lesson['quiz']
+    
+    st.write(quiz['question'])
+    
+    # Quiz options
+    user_answer = st.radio(
+        "اختر الإجابة الصحيحة:",
+        range(len(quiz['options'])),
+        format_func=lambda x: quiz['options'][x],
+        key=f"quiz_{lesson_id}"
+    )
+    
+    if st.button("تحقق من الإجابة", key=f"check_quiz_{lesson_id}"):
+        if user_answer == quiz['correct']:
+            st.success("🎉 إجابة صحيحة! أحسنت!")
+            st.session_state.progress_tracker.save_quiz_score(lesson_id, 1)
+            if not is_completed:
+                st.session_state.progress_tracker.mark_lesson_completed(lesson_id)
+                st.success("🏆 تهانينا! لقد أكملت هذا الدرس!")
+                st.balloons()
+                st.rerun()
+        else:
+            st.error("❌ إجابة خاطئة. حاول مرة أخرى!")
+            correct_answer = quiz['options'][quiz['correct']]
+            st.info(f"الإجابة الصحيحة هي: {correct_answer}")
+    
+    # Previous quiz score
+    quiz_score = st.session_state.progress_tracker.get_quiz_score(lesson_id)
+    if quiz_score > 0:
+        st.success("✅ أجبت على الاختبار بشكل صحيح من قبل")
+    
+    # Lesson navigation
+    st.subheader("🧭 التنقل")
+    
+    col_prev, col_next = st.columns(2)
+    
+    with col_prev:
+        if lesson_id > 1:
+            if st.button("⬅️ الدرس السابق"):
+                st.switch_page("pages/1_الدروس.py")
+        else:
+            st.write("هذا أول درس")
+    
+    with col_next:
+        if lesson_id < len(lessons):
+            if st.button("➡️ الدرس التالي"):
+                st.switch_page("pages/1_الدروس.py")
+        else:
+            st.write("هذا آخر درس")
+    
+    # Additional resources
+    st.subheader("📚 موارد إضافية")
+    st.write("نصائح للممارسة:")
+    st.write("• جرب تعديل الأمثلة")
+    st.write("• اكتب أكواد مشابهة")
+    st.write("• تأكد من فهم كل سطر")
+    st.write("• لا تتردد في العودة للدرس")
 
-# Cython debug symbols
-cython_debug/
+# Footer
+st.markdown("---")
+col_foot1, col_foot2, col_foot3 = st.columns(3)
 
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+with col_foot1:
+    if st.button("🏠 الصفحة الرئيسية"):
+        st.switch_page("app.py")
 
-# Abstra
-# Abstra is an AI-powered process automation framework.
-# Ignore directories containing user credentials, local state, and settings.
-# Learn more at https://abstra.io/docs
-.abstra/
+with col_foot2:
+    if st.button("🎮 ملعب الكود"):
+        st.switch_page("pages/2_ملعب_الكود.py")
 
-# Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
-#  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
-#  you could uncomment the following to ignore the entire vscode folder
-# .vscode/
+with col_foot3:
+    if st.button("📊 التقدم"):
+        st.switch_page("pages/4_التقدم.py")
+import streamlit as st
+from streamlit_ace import st_ace
+from utils.code_executor import CodeExecutor
+from utils.progress_tracker import ProgressTracker
+import time
 
-# Ruff stuff:
-.ruff_cache/
+# Page configuration
+st.set_page_config(page_title="ملعب الكود", page_icon="🎮", layout="wide")
 
-# PyPI configuration file
-.pypirc
+# Initialize utilities
+if 'code_executor' not in st.session_state:
+    st.session_state.code_executor = CodeExecutor()
 
-# Cursor
-#  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
-#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
-#  refer to https://docs.cursor.com/context/ignore-files
-.cursorignore
-.cursorindexingignore
+if 'progress_tracker' not in st.session_state:
+    st.session_state.progress_tracker = ProgressTracker()
 
-# Marimo
-marimo/_static/
-marimo/_lsp/
-__marimo__/
+if 'code_history' not in st.session_state:
+    st.session_state.code_history = []
+
+st.title("🎮 ملعب الكود")
+st.write("مساحة حرة لتجربة وكتابة أكواد بايثون")
+
+# Sidebar with examples and history
+st.sidebar.title("🔧 أدوات مساعدة")
+
+# Code templates
+st.sidebar.subheader("📝 قوالب جاهزة")
+templates = {
+    "مرحباً بالعالم": "print('مرحباً بالعالم!')",
+    "متغيرات أساسية": "name = 'أحمد'\nage = 25\nprint(f'اسمي {name} وعمري {age} سنة')",
+    "حلقة for": "for i in range(1, 6):\n    print(f'الرقم: {i}')",
+    "حلقة while": "count = 1\nwhile count <= 5:\n    print(count)\n    count += 1",
+    "قائمة": "fruits = ['تفاح', 'موز', 'برتقال']\nfor fruit in fruits:\n    print(fruit)",
+    "دالة بسيطة": "def greet(name):\n    return f'مرحباً {name}!'\n\nresult = greet('سارة')\nprint(result)",
+    "قاموس": "student = {'name': 'أحمد', 'age': 20, 'grade': 85}\nprint(f\"الطالب: {student['name']}\")\nprint(f\"العمر: {student['age']}\")",
+    "جملة شرطية": "number = 15\nif number > 10:\n    print('العدد أكبر من 10')\nelse:\n    print('العدد أصغر من أو يساوي 10')"
+}
+
+selected_template = st.sidebar.selectbox(
+    "اختر قالب:",
+    ["اختر قالب..."] + list(templates.keys())
+)
+
+if selected_template != "اختر قالب...":
+    if st.sidebar.button("📋 استخدام القالب"):
+        st.session_state.playground_code = templates[selected_template]
+        st.rerun()
+
+# Code history
+st.sidebar.subheader("📚 تاريخ الأكواد")
+if st.session_state.code_history:
+    history_options = [f"كود {i+1}" for i in range(len(st.session_state.code_history))]
+    selected_history = st.sidebar.selectbox("الأكواد السابقة:", ["اختر كود..."] + history_options)
+    
+    if selected_history != "اختر كود...":
+        history_index = history_options.index(selected_history)
+        if st.sidebar.button("📥 استرجاع الكود"):
+            st.session_state.playground_code = st.session_state.code_history[history_index]['code']
+            st.rerun()
+        
+        # Preview of the selected code
+        st.sidebar.code(st.session_state.code_history[history_index]['code'][:100] + "..." if len(st.session_state.code_history[history_index]['code']) > 100 else st.session_state.code_history[history_index]['code'])
+
+else:
+    st.sidebar.info("لا توجد أكواد محفوظة بعد")
+
+# Clear history
+if st.session_state.code_history and st.sidebar.button("🗑️ مسح التاريخ"):
+    st.session_state.code_history = []
+    st.rerun()
+
+# Main content area
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    # Code editor
+    st.subheader("💻 محرر الكود")
+    
+    # Get initial code
+    initial_code = st.session_state.get('playground_code', 
+        "# مرحباً بك في ملعب الكود!\n# اكتب كودك هنا وجربه\n\nprint('مرحباً بك في عالم بايثون!')")
+    
+    user_code = st_ace(
+        value=initial_code,
+        language='python',
+        theme='github',
+        font_size=16,
+        tab_size=4,
+        wrap=True,
+        height=400,
+        key="playground_editor",
+        auto_update=True
+    )
+    
+    # Update session state
+    st.session_state.playground_code = user_code
+    
+    # Control buttons
+    col_run, col_save, col_clear, col_share = st.columns([2, 1, 1, 1])
+    
+    with col_run:
+        if st.button("▶️ تشغيل الكود", type="primary", use_container_width=True):
+            if user_code.strip():
+                # Validate code
+                is_valid, validation_msg = st.session_state.code_executor.validate_code(user_code)
+                
+                if is_valid:
+                    with st.spinner("جاري تشغيل الكود..."):
+                        result = st.session_state.code_executor.execute_code(user_code)
+                        st.session_state.progress_tracker.increment_code_runs()
+                    
+                    # Display results
+                    if result['success']:
+                        st.success("✅ تم تشغيل الكود بنجاح!")
+                        
+                        if result['output']:
+                            st.subheader("📤 المخرجات:")
+                            st.code(result['output'], language='text')
+                        else:
+                            st.info("الكود تم تنفيذه بنجاح ولكن لا توجد مخرجات للعرض")
+                        
+                        # Execution info
+                        col_time, col_lines = st.columns(2)
+                        with col_time:
+                            st.metric("وقت التنفيذ", f"{result['execution_time']:.3f} ثانية")
+                        with col_lines:
+                            lines_count = len(user_code.split('\n'))
+                            st.metric("عدد الأسطر", lines_count)
+                    else:
+                        st.error("❌ حدث خطأ أثناء تشغيل الكود:")
+                        st.code(result['error'], language='text')
+                        
+                        # Helpful tips based on error
+                        if "SyntaxError" in result['error']:
+                            st.info("💡 نصيحة: تحقق من الأقواس والفواصل وعلامات الاقتباس")
+                        elif "NameError" in result['error']:
+                            st.info("💡 نصيحة: تأكد من تعريف جميع المتغيرات قبل استخدامها")
+                        elif "IndentationError" in result['error']:
+                            st.info("💡 نصيحة: تحقق من المسافات في بداية الأسطر")
+                else:
+                    st.error(f"❌ {validation_msg}")
+            else:
+                st.warning("⚠️ الرجاء كتابة بعض الكود أولاً")
+    
+    with col_save:
+        if st.button("💾 حفظ", use_container_width=True):
+            if user_code.strip():
+                # Save to history
+                code_entry = {
+                    'code': user_code,
+                    'timestamp': time.time(),
+                    'lines': len(user_code.split('\n'))
+                }
+                st.session_state.code_history.append(code_entry)
+                # Keep only last 10 codes
+                if len(st.session_state.code_history) > 10:
+                    st.session_state.code_history = st.session_state.code_history[-10:]
+                st.success("تم حفظ الكود!")
+            else:
+                st.warning("لا يوجد كود للحفظ")
+    
+    with col_clear:
+        if st.button("🗑️ مسح", use_container_width=True):
+            st.session_state.playground_code = "# اكتب كودك هنا\n\n"
+            st.rerun()
+    
+    with col_share:
+        if st.button("📤 مشاركة", use_container_width=True):
+            if user_code.strip():
+                st.text_area(
+                    "انسخ الكود للمشاركة:",
+                    user_code,
+                    height=100,
+                    key="share_code"
+                )
+            else:
+                st.warning("لا يوجد كود للمشاركة")
+
+with col2:
+    # Statistics and tips
+    st.subheader("📊 إحصائيات")
+    
+    # User statistics
+    stats = st.session_state.progress_tracker.get_progress_stats()
+    st.metric("عدد مرات التشغيل", stats['total_code_runs'])
+    st.metric("الأكواد المحفوظة", len(st.session_state.code_history))
+    
+    # Current code info
+    if user_code:
+        lines = len(user_code.split('\n'))
+        chars = len(user_code)
+        st.metric("أسطر الكود الحالي", lines)
+        st.metric("عدد الأحرف", chars)
+    
+    # Tips section
+    st.subheader("💡 نصائح")
+    tips = [
+        "استخدم print() لعرض النتائج",
+        "تأكد من المسافات الصحيحة",
+        "اختبر الكود قطعة قطعة",
+        "استخدم التعليقات لتوضيح الكود",
+        "جرب القوالب الجاهزة للتعلم",
+        "احفظ الأكواد المفيدة للرجوع إليها"
+    ]
+    
+    for tip in tips:
+        st.write(f"• {tip}")
+    
+    # Quick references
+    st.subheader("📖 مراجع سريعة")
+    
+    with st.expander("العمليات الأساسية"):
+        st.code("""
+# الطباعة
+print("مرحباً")
+
+# المتغيرات
+name = "أحمد"
+age = 25
+
+# العمليات الحسابية
+result = 10 + 5
+        """)
+    
+    with st.expander("الحلقات"):
+        st.code("""
+# حلقة for
+for i in range(5):
+    print(i)
+
+# حلقة while
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+        """)
+    
+    with st.expander("الشروط"):
+        st.code("""
+# جملة شرطية
+if age >= 18:
+    print("بالغ")
+else:
+    print("قاصر")
+        """)
+
+# Footer navigation
+st.markdown("---")
+col_nav1, col_nav2, col_nav3 = st.columns(3)
+
+with col_nav1:
+    if st.button("🏠 الصفحة الرئيسية"):
+        st.switch_page("app.py")
+
+with col_nav2:
+    if st.button("📚 الدروس"):
+        st.switch_page("pages/1_الدروس.py")
+
+with col_nav3:
+    if st.button("💪 التمارين"):
+        st.switch_page("pages/3_التمارين.py")
+import sys
+import io
+import contextlib
+import traceback
+import time
+
+class CodeExecutor:
+    def __init__(self):
+        self.max_execution_time = 5  # Maximum execution time in seconds
+        
+    def execute_code(self, code):
+        """
+        Execute Python code safely and return the output, errors, and execution time.
+        """
+        # Capture stdout and stderr
+        stdout_capture = io.StringIO()
+        stderr_capture = io.StringIO()
+        
+        # Store original stdout and stderr
+        original_stdout = sys.stdout
+        original_stderr = sys.stderr
+        
+        # Record start time
+        start_time = time.time()
+        
+        try:
+            # Redirect output
+            sys.stdout = stdout_capture
+            sys.stderr = stderr_capture
+            
+            # Create a restricted globals dictionary
+            restricted_globals = {
+                '__builtins__': {
+                    'print': print,
+                    'len': len,
+                    'str': str,
+                    'int': int,
+                    'float': float,
+                    'bool': bool,
+                    'list': list,
+                    'dict': dict,
+                    'tuple': tuple,
+                    'set': set,
+                    'range': range,
+                    'enumerate': enumerate,
+                    'zip': zip,
+                    'type': type,
+                    'abs': abs,
+                    'round': round,
+                    'min': min,
+                    'max': max,
+                    'sum': sum,
+                    'sorted': sorted,
+                    'input': self._safe_input,
+                    'isinstance': isinstance,
+                    'ValueError': ValueError,
+                    'TypeError': TypeError,
+                    'IndexError': IndexError,
+                    'KeyError': KeyError,
+                }
+            }
+            
+            # Execute the code
+            exec(code, restricted_globals)
+            
+            # Calculate execution time
+            execution_time = time.time() - start_time
+            
+            # Get output
+            output = stdout_capture.getvalue()
+            error = stderr_capture.getvalue()
+            
+            return {
+                'success': True,
+                'output': output,
+                'error': error,
+                'execution_time': execution_time
+            }
+            
+        except Exception as e:
+            # Calculate execution time even for errors
+            execution_time = time.time() - start_time
+            
+            # Get the traceback
+            error_traceback = traceback.format_exc()
+            
+            return {
+                'success': False,
+                'output': stdout_capture.getvalue(),
+                'error': self._format_error(error_traceback),
+                'execution_time': execution_time
+            }
+            
+        finally:
+            # Restore original stdout and stderr
+            sys.stdout = original_stdout
+            sys.stderr = original_stderr
+    
+    def _safe_input(self, prompt=""):
+        """
+        Safe input function that returns a predetermined value
+        """
+        return "test_input"
+    
+    def _format_error(self, error_traceback):
+        """
+        Format error messages to be more user-friendly in Arabic
+        """
+        if "SyntaxError" in error_traceback:
+            return "خطأ في الصيغة: تحقق من كتابة الكود بشكل صحيح"
+        elif "NameError" in error_traceback:
+            return "خطأ في الاسم: متغير أو دالة غير معرفة"
+        elif "TypeError" in error_traceback:
+            return "خطأ في النوع: تحقق من أنواع البيانات المستخدمة"
+        elif "IndexError" in error_traceback:
+            return "خطأ في الفهرس: محاولة الوصول لعنصر غير موجود"
+        elif "ValueError" in error_traceback:
+            return "خطأ في القيمة: قيمة غير صالحة للعملية المطلوبة"
+        elif "IndentationError" in error_traceback:
+            return "خطأ في المسافات: تحقق من المسافات في بداية الأسطر"
+        else:
+            # Return the last line of the traceback which usually contains the error
+            lines = error_traceback.strip().split('\n')
+            return lines[-1] if lines else "خطأ غير معروف"
+    
+    def validate_code(self, code):
+        """
+        Validate code before execution
+        """
+        # Check for potentially dangerous operations
+        dangerous_keywords = ['import os', 'import sys', 'import subprocess', 
+                             'exec(', 'eval(', '__import__', 'open(', 'file(']
+        
+        for keyword in dangerous_keywords:
+            if keyword in code:
+                return False, f"الكود يحتوي على عملية غير مسموحة: {keyword}"
+        
+        # Check for infinite loops (basic check)
+        if 'while True:' in code and 'break' not in code:
+            return False, "احذر من الحلقات اللانهائية! تأكد من وجود شرط للخروج"
+        
+        return True, "الكود آمن للتنفيذ"
+import streamlit as st
+import json
+import os
+
+class ProgressTracker:
+    def __init__(self):
+        self.progress_file = "user_progress.json"
+        self.load_progress()
+    
+    def load_progress(self):
+        """Load user progress from session state or create new"""
+        if 'user_progress' not in st.session_state:
+            st.session_state.user_progress = {
+                'completed_lessons': [],
+                'completed_exercises': [],
+                'quiz_scores': {},
+                'total_code_runs': 0,
+                'last_lesson': 1
+            }
+    
+    def mark_lesson_completed(self, lesson_id):
+        """Mark a lesson as completed"""
+        if lesson_id not in st.session_state.user_progress['completed_lessons']:
+            st.session_state.user_progress['completed_lessons'].append(lesson_id)
+            st.session_state.user_progress['last_lesson'] = max(
+                st.session_state.user_progress['last_lesson'], lesson_id + 1
+            )
+    
+    def mark_exercise_completed(self, exercise_id):
+        """Mark an exercise as completed"""
+        if exercise_id not in st.session_state.user_progress['completed_exercises']:
+            st.session_state.user_progress['completed_exercises'].append(exercise_id)
+    
+    def save_quiz_score(self, lesson_id, score):
+        """Save quiz score for a lesson"""
+        st.session_state.user_progress['quiz_scores'][str(lesson_id)] = score
+    
+    def increment_code_runs(self):
+        """Increment the counter for code executions"""
+        st.session_state.user_progress['total_code_runs'] += 1
+    
+    def get_completed_lessons_count(self):
+        """Get number of completed lessons"""
+        return len(st.session_state.user_progress['completed_lessons'])
+    
+    def get_completed_exercises_count(self):
+        """Get number of completed exercises"""
+        return len(st.session_state.user_progress['completed_exercises'])
+    
+    def get_overall_progress(self):
+        """Calculate overall progress percentage"""
+        total_lessons = 10  # Total number of lessons
+        completed_lessons = self.get_completed_lessons_count()
+        return (completed_lessons / total_lessons) * 100
+    
+    def is_lesson_completed(self, lesson_id):
+        """Check if a lesson is completed"""
+        return lesson_id in st.session_state.user_progress['completed_lessons']
+    
+    def is_exercise_completed(self, exercise_id):
+        """Check if an exercise is completed"""
+        return exercise_id in st.session_state.user_progress['completed_exercises']
+    
+    def get_quiz_score(self, lesson_id):
+        """Get quiz score for a lesson"""
+        return st.session_state.user_progress['quiz_scores'].get(str(lesson_id), 0)
+    
+    def get_next_lesson(self):
+        """Get the next lesson to study"""
+        return st.session_state.user_progress['last_lesson']
+    
+    def reset_progress(self):
+        """Reset all progress"""
+        st.session_state.user_progress = {
+            'completed_lessons': [],
+            'completed_exercises': [],
+            'quiz_scores': {},
+            'total_code_runs': 0,
+            'last_lesson': 1
+        }
+    
+    def get_progress_stats(self):
+        """Get detailed progress statistics"""
+        return {
+            'completed_lessons': self.get_completed_lessons_count(),
+            'completed_exercises': self.get_completed_exercises_count(),
+            'total_code_runs': st.session_state.user_progress['total_code_runs'],
+            'overall_progress': self.get_overall_progress(),
+            'next_lesson': self.get_next_lesson(),
+            'quiz_scores': st.session_state.user_progress['quiz_scores']
+        }[server]
+headless = true
+address = "0.0.0.0"
+port = 5000
+
+[theme]
+primaryColor = "#1f77b4"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f0f2f6"
+textColor = "#262730"
